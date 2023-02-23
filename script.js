@@ -111,4 +111,6 @@ function monsterDead() {
 function outOfAP() {
     //remove walk class and add jump class to enemy
     $('.walk').removeClass("freaky-fungus walk").addClass("freaky-fungus jump");
+    //disable attack buttons
+    $('.attack-btn').prop("disabled", true);
 }
