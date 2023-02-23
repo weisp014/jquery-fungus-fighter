@@ -6,6 +6,7 @@ $(document).ready(onReady);
 // let fungusHP = 100;
 let fungusHP = 100;
 let AP = 100;
+let healthRegen = false;
 
 function onReady() {
     
@@ -20,6 +21,8 @@ function onReady() {
     $('.dragon-blade').on('click', dragonBladeAttack);
     //listener for attack-btn star-fire
     $('.star-fire').on('click', starFireAttack);
+    //health regeneration if fungusHP < 50 (healthRegen === true)
+    
     // 🧠 Remember
     // - Handle events that ->
     // - Updates state which is ->
@@ -40,6 +43,11 @@ function arcaneAttack() {
     if (AP < 0) {   //check if AP is below zero and set to zero if true
         AP = 0;
         outOfAP();  //ran out of AP
+    }
+    checkHealth();
+    if (healthRegen) {  //this works but doesn't stop from regenerating more than 1 after arcaneAttack clicked again and doesn't keep rendering after every second
+        setInterval(regenerateHealth, 1000);
+        renderAPHP();
     }
     renderAPHP();
 }
@@ -101,6 +109,10 @@ function renderAPHP() { //update AP and HP on the DOM
     $('.hp-text').html(fungusHP);
     //render AP
     $('.ap-text').html(AP);
+    //change value of HP meter
+    $('#hp-meter').val(fungusHP);
+    //change value of AP meter
+    $('#ap-meter').val(AP);
 }
 
 function monsterDead() {
@@ -113,4 +125,18 @@ function outOfAP() {
     $('.walk').removeClass("freaky-fungus walk").addClass("freaky-fungus jump");
     //disable attack buttons
     $('.attack-btn').prop("disabled", true);
+}
+
+function regenerateHealth() {
+    //regenerate health by 1
+    fungusHP++;
+    console.log(fungusHP);
+}
+
+function checkHealth() {    //if health below 50 turn on health regen
+    console.log('in checkHealth');
+    if (fungusHP < 50) {
+        healthRegen = true;
+    }
+    console.log(healthRegen);
 }
